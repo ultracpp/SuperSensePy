@@ -1,0 +1,36 @@
+import paho.mqtt.client as mqtt
+
+
+class MqttClient:
+
+    def __init__(self, host="127.0.0.1", port=1883):
+        self.host = host
+        self.port = port
+        self.client = mqtt.Client()
+
+    def connect(self, keepalive=60):
+        return self.client.connect(self.host, self.port, keepalive)
+
+    def disconnect(self):
+        self.client.disconnect()
+
+    def subscribe(self, topic="#", qos=0):
+        self.client.subscribe(topic, qos)
+
+    def publish(self, topic, payload, qos=0, retain=False):
+        self.client.publish(topic, payload, qos, retain)
+
+    def on_connect(self, func):
+        self.client.on_connect = func
+
+    def on_disconnect(self, func):
+        self.client.on_disconnect = func
+
+    def on_subscribe(self, func):
+        self.client.on_subscribe = func
+
+    def on_message(self, func):
+        self.client.on_message = func
+
+    def on_publish(self, func):
+        self.client.on_publish = func
